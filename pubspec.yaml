@@ -1,0 +1,67 @@
+name: todo_app
+description: "A new Flutter project."
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.1
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  get:
+  connectivity_plus:
+  image_picker:
+  shared_preferences:
+  hive:
+  hive_flutter:
+  path_provider:
+  flutter_local_notifications:
+  flutter_timezone:
+  rxdart: ^0.28.0
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  build_runner:
+  json_serializable:
+  hive_generator:
+
+
+
+
+flutter:
+
+
+  uses-material-design: true
+
+  assets:
+    - assets/img/
+    - assets/icons/
+    - assets/svg/
+    - assets/gif/
+
+
+  fonts:
+    - family: Manrope Regular
+      fonts:
+        - asset: fonts/manrope-regular.otf
+
+    - family: Manrope Bold
+      fonts:
+        - asset: fonts/manrope-bold.otf
+
+    - family: Manrope Medium
+      fonts:
+        - asset: fonts/manrope-medium.otf
+
+    - family: Manrope Thin
+      fonts:
+        - asset: fonts/manrope-thin.otf
