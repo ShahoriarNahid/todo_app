@@ -22,7 +22,6 @@ class TaskController extends GetxController {
   void addTask(Task task) {
     taskBox.add(task);
     tasks.add(task);
-    
   }
 
   void updateTask(Task task) {

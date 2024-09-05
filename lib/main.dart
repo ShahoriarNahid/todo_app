@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:todo_app/model/task_model.dart';
 import 'package:todo_app/services/notification_service.dart';
 
 import 'base/base_bindings.dart';
@@ -15,6 +16,8 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  Hive.registerAdapter(TaskAdapter());
+
   await NotificationService.init();
 
 //  handle in terminated state

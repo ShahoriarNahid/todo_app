@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:todo_app/helpers/route.dart';
 import 'package:todo_app/pages/add_task_page.dart';
 import 'package:todo_app/services/notification_service.dart';
-
 import '../base/base.dart';
 
 class TaskListPage extends StatelessWidget {

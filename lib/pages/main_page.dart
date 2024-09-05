@@ -57,7 +57,7 @@ class _MainPageState extends State<MainPage> {
                 //  LocalNotifications.showScheduleNotification(
                 //       title: "Schedule Notification",
                 //       body: "This is a Schedule Notification",
-                //       payload: "This is schedule data");
+                //       payload: "This is schedule data");h
                 NotificationService.showSimpleNotification(
                     title: 'Simple Notification',
                     body: 'This is a simple notification',
