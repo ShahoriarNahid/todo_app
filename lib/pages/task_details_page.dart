@@ -5,6 +5,7 @@ import 'package:todo_app/helpers/k_text.dart';
 import 'package:todo_app/helpers/route.dart';
 
 import '../base/base.dart';
+import '../helpers/global_helper.dart';
 import '../model/task_model.dart';
 
 class TaskDetailPage extends StatelessWidget {
@@ -20,6 +21,7 @@ class TaskDetailPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.indigo,
         iconTheme: IconThemeData(
           color: Colors.white, // Change this to your desired color
         ),
@@ -36,8 +38,11 @@ class TaskDetailPage extends StatelessWidget {
               color: Colors.redAccent,
             ),
             onPressed: () {
-              Base.taskController.deleteTask(task);
-              back();
+              Global.confirmDialog(onConfirmed: () {
+                Base.taskController.deleteTask(task);
+                back();
+                back();
+              });
             },
           ),
         ],
@@ -63,6 +68,9 @@ class TaskDetailPage extends StatelessWidget {
                   borderSide: BorderSide.none,
                 ),
               ),
+            ),
+            SizedBox(
+              height: 20,
             ),
             task.imagePath == null
                 ? KText(text: 'No image')

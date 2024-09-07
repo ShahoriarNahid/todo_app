@@ -24,7 +24,6 @@ dependencies:
   flutter_local_notifications:
   rxdart:
   intl:
-  # uuid:
   
 
 dev_dependencies:

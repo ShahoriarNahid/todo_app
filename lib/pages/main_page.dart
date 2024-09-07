@@ -9,6 +9,7 @@ import 'package:todo_app/pages/task_details_page.dart';
 import '../base/base.dart';
 import '../helpers/k_text.dart';
 import '../helpers/route.dart';
+import '../services/notification_service.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -65,13 +66,32 @@ class _MainPageState extends State<MainPage> {
               trailing: task.imagePath == null
                   ? SizedBox()
                   : Image.file(File(task.imagePath!)),
-              title: KText(
-                text: task.title,
-                bold: true,
+              title: RichText(
+                text: TextSpan(
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'Title: ',
+                      style: TextStyle(
+                          fontFamily: 'Manrope',
+                          color: Colors.black,
+                          fontSize: 16,
+                          height: 1.2),
+                    ),
+                    TextSpan(
+                      text: task.title,
+                      style: TextStyle(
+                          fontFamily: 'Manrope',
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          height: 1.2),
+                    )
+                  ],
+                ),
               ),
               subtitle: KText(
                   text:
-                      'Due Time: ${DateFormat('yyyy-MM-dd hh:mm:ss a').format(Base.taskController.selectedDateTime.value)}'),
+                      'Due Time: ${DateFormat('yyyy-MM-dd hh:mm:ss a').format(task.dueTime)}'),
               // subtitle: KText(text: 'Due: ${task.dueTime}'),
 
               // leading: Checkbox(
@@ -81,10 +101,6 @@ class _MainPageState extends State<MainPage> {
               //   },
               // ),
               onTap: () {
-                // NotificationService.showSimpleNotification(
-                //     title: task.title,
-                //     body: 'This is a simple notification',
-                //     payload: 'This is simple data');
                 push(TaskDetailPage(task: task));
               },
             );

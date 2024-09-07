@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/helpers/k_text.dart';
 import '../base/base.dart';
-import '../helpers/hex_color.dart';
+import '../helpers/global_helper.dart';
+import '../helpers/route.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -19,7 +20,7 @@ class LeftDrawer extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                    color: hexToColor('#C1E1FF'),
+                    color: Colors.indigo,
                     width: Get.width,
                     height: 250,
                     child: Column(
@@ -63,6 +64,7 @@ class LeftDrawer extends StatelessWidget {
                                   KText(
                                     text: 'Mr. Exe',
                                     bold: true,
+                                    color: Colors.white,
                                   ),
                                 ],
                               ),
@@ -168,11 +170,10 @@ class LeftDrawer extends StatelessWidget {
                     color: Colors.white,
                     child: ListTile(
                       onTap: () {
-                        Base.loginController.logout();
-                        // Global.confirmDialog(onConfirmed: () {
-                        //   userC.logOut();
-                        //   back();
-                        // });
+                        Global.confirmDialog(onConfirmed: () {
+                          Base.loginController.logout();
+                          back();
+                        });
                       },
 
                       contentPadding: EdgeInsets.symmetric(horizontal: 10.0),

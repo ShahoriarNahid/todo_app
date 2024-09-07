@@ -22,7 +22,7 @@ class TaskController extends GetxController {
     tasks.assignAll(taskBox.values.toList());
   }
 
-  void addTask(Task task) {
+  void addTask(Task task) async {
     taskBox.add(task);
     tasks.add(task);
     scheduleTaskReminder(task);
@@ -92,7 +92,7 @@ class TaskController extends GetxController {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDateTime.value,
-      firstDate: DateTime(2000),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2101),
     );
 
