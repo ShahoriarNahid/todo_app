@@ -16,25 +16,50 @@ class AddTaskPage extends StatefulWidget {
 class _AddTaskPageState extends State<AddTaskPage> {
   @override
   void dispose() {
+    Base.imagePickerController.selectedImagePath.value = '';
     super.dispose();
   }
 
   final TextEditingController titleController = TextEditingController();
-  DateTime? selectedDueTime;
-  String? imagePath;
-
-  Future<void> pickImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    setState(() {
-      imagePath = pickedFile?.path;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 130, vertical: 20),
+          child: ElevatedButton(
+            onPressed: () {
+              if (titleController.text.isNotEmpty) {
+                Base.taskController.addTask(
+                  Task(
+                    title: titleController.text,
+                    dueTime: Base.taskController.selectedDateTime.value,
+                    imagePath:
+                        Base.imagePickerController.selectedImagePath.value,
+                  ),
+                );
+
+                back(); // Go back after adding task
+              } else {
+                Get.snackbar('Warning', 'please fill all required fields',
+                    snackPosition: SnackPosition.BOTTOM);
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blueAccent, // Button color
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+            child: KText(
+              text: 'Add Task',
+              bold: true,
+              color: Colors.white,
+            ),
+          ),
+        ),
         appBar: AppBar(
           backgroundColor: Colors.indigo,
           iconTheme: IconThemeData(
@@ -57,6 +82,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   decoration: InputDecoration(labelText: 'Task Title'),
                 ),
                 SizedBox(height: 10),
+                //show Selected Date & Time
                 RichText(
                   text: TextSpan(
                     children: <TextSpan>[
@@ -81,9 +107,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     ],
                   ),
                 ),
-
                 SizedBox(height: 20),
-
+                // Pick Date & Time
                 ElevatedButton(
                   onPressed: () {
                     Base.taskController.selectDateTime(context);
@@ -104,84 +129,61 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 SizedBox(
                   height: 5,
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    pickImage();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent, // Button color
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: KText(
-                    text: 'Pick Image',
-                    bold: true,
-                    color: Colors.white,
-                  ),
-                ),
-
-                // TextButton(
-                //   onPressed: () async {
-                //     selectedDueTime = await showDatePicker(
-                //       context: context,
-                //       initialDate: DateTime.now(),
-                //       firstDate: DateTime(2000),
-                //       lastDate: DateTime(2101),
-                //     );
-                //   },
-                //   child: Text('Select Due Date'),
-                // ),
-                // if (selectedDueTime != null)
-                //   KText(
-                //       text: (DateFormat('yyyy-MM-dd HH:mm:ss')
-                //           .format(selectedDueTime!))),
-
-                SizedBox(height: 10),
-
-                imagePath == null
-                    ? SizedBox()
-                    : SizedBox(
-                        height: 200,
-                        width: Get.width,
-                        child: ClipRRect(
-                          child: Image.file(
-                            File(imagePath!),
-                            fit: BoxFit.contain,
-                          ),
+                Obx(() {
+                  return Base.imagePickerController.selectedImagePath.value ==
+                          ''
+                      ? KText(text: 'No image selected')
+                      : Image.file(
+                          File(Base
+                              .imagePickerController.selectedImagePath.value),
+                          width: 200,
+                          height: 200,
+                        );
+                }),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Base.imagePickerController
+                            .pickImage(ImageSource.camera);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent, // Button color
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-
-                ElevatedButton(
-                  onPressed: () {
-                    if (titleController.text.isNotEmpty) {
-                      Base.taskController.addTask(
-                        Task(
-                          title: titleController.text,
-                          dueTime: Base.taskController.selectedDateTime.value,
-                          imagePath: imagePath,
-                        ),
-                      );
-
-                      back(); // Go back after adding task
-                    } else {
-                      Get.snackbar('Warning', 'please fill all required fields',
-                          snackPosition: SnackPosition.BOTTOM);
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent, // Button color
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      child: KText(
+                        text: 'Capture Image',
+                        color: Colors.white,
+                        bold: true,
+                      ),
                     ),
-                  ),
-                  child: KText(
-                    text: 'Add Task',
-                    bold: true,
-                    color: Colors.white,
-                  ),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        Base.imagePickerController
+                            .pickImage(ImageSource.gallery);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent, // Button color
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: KText(
+                        text: 'Select from Gallery',
+                        color: Colors.white,
+                        bold: true,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
