@@ -61,47 +61,62 @@ class _MainPageState extends State<MainPage> {
           itemCount: Base.taskController.tasks.length,
           itemBuilder: (context, index) {
             final task = Base.taskController.tasks[index];
-            return ListTile(
-              trailing: task.imagePath == null
-                  ? SizedBox()
-                  : Image.file(File(task.imagePath!)),
-              title: RichText(
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Title: ',
-                      style: TextStyle(
-                          fontFamily: 'Manrope',
-                          color: Colors.black,
-                          fontSize: 16,
-                          height: 1.2),
-                    ),
-                    TextSpan(
-                      text: task.title,
-                      style: TextStyle(
-                          fontFamily: 'Manrope',
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          height: 1.2),
+            return Padding(
+              padding: const EdgeInsets.all(10),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 10.0,
+                      color: Colors.black12,
                     )
                   ],
                 ),
-              ),
-              subtitle: KText(
-                  text:
-                      'Due Time: ${DateFormat('yyyy-MM-dd hh:mm:ss a').format(task.dueTime)}'),
-              // subtitle: KText(text: 'Due: ${task.dueTime}'),
+                child: ListTile(
+                  trailing: task.imagePath == null
+                      ? SizedBox()
+                      : Image.file(File(task.imagePath!)),
+                  title: RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Title: ',
+                          style: TextStyle(
+                              fontFamily: 'Manrope',
+                              color: Colors.black,
+                              fontSize: 16,
+                              height: 1.2),
+                        ),
+                        TextSpan(
+                          text: task.title,
+                          style: TextStyle(
+                              fontFamily: 'Manrope',
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              height: 1.2),
+                        )
+                      ],
+                    ),
+                  ),
+                  subtitle: KText(
+                      text:
+                          'Due Time: ${DateFormat('yyyy-MM-dd hh:mm:ss a').format(task.dueTime)}'),
+                  // subtitle: KText(text: 'Due: ${task.dueTime}'),
 
-              // leading: Checkbox(
-              //   value: task.isDone,
-              //   onChanged: (val) {
-              //     Base.taskController.toggleTaskCompletion(task);
-              //   },
-              // ),
-              onTap: () {
-                push(TaskDetailPage(task: task));
-              },
+                  // leading: Checkbox(
+                  //   value: task.isDone,
+                  //   onChanged: (val) {
+                  //     Base.taskController.toggleTaskCompletion(task);
+                  //   },
+                  // ),
+                  onTap: () {
+                    push(TaskDetailPage(task: task));
+                  },
+                ),
+              ),
             );
           },
         );
