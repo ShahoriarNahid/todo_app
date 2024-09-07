@@ -1,12 +1,11 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:todo_app/base/base.dart';
 import 'package:todo_app/helpers/k_log.dart';
 import 'package:todo_app/helpers/k_text.dart';
 import 'package:todo_app/helpers/route.dart';
-
+import 'package:intl/intl.dart';
 import '../model/task_model.dart';
 
 class AddTaskPage extends StatefulWidget {
@@ -51,11 +50,14 @@ class _AddTaskPageState extends State<AddTaskPage> {
               },
               child: Text('Select Due Date'),
             ),
-            KText(text: selectedDueTime.toString()),
+            if (selectedDueTime != null)
+              KText(
+                  text: (DateFormat('yyyy-MM-dd HH:mm')
+                      .format(selectedDueTime!))),
             SizedBox(height: 10),
             TextButton(
               onPressed: pickImage,
-              child: Text('Pick Image'),
+              child: KText(text:'Pick Image'),
             ),
             imagePath == null ? SizedBox() : Image.file(File(imagePath!)),
             SizedBox(height: 20),
@@ -63,17 +65,21 @@ class _AddTaskPageState extends State<AddTaskPage> {
               onPressed: () {
                 if (titleController.text.isNotEmpty &&
                     selectedDueTime != null) {
-                  Base.taskController.addTask(Task(
-                    title: titleController.text,
-                    dueTime: selectedDueTime!,
-                    imagePath: imagePath,
-                  ));
+                  Base.taskController.addTask(
+                    Task(
+                      title: titleController.text,
+                      // dueTime: selectedDueTime!,
+                      dueTime: DateTime.now().add(Duration(seconds: 10)),
+                      imagePath: imagePath,
+                    ),
+                  );
+               
                   kLog(imagePath);
                   kLog(selectedDueTime);
                   back(); // Go back after adding task
                 }
               },
-              child: Text('Add Tasked'),
+              child: KText(text:'Add Tasked'),
             ),
           ],
         ),

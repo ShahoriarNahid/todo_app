@@ -32,7 +32,7 @@ class ImagePickerPage extends StatelessWidget {
           children: [
             Obx(() {
               return Base.imagePickerController.selectedImagePath.value == ''
-                  ? Text('No image selected')
+                  ? KText(text: 'No image selected')
                   : Image.file(
                       File(Base.imagePickerController.selectedImagePath.value),
                       width: 200,
@@ -44,14 +44,14 @@ class ImagePickerPage extends StatelessWidget {
               onPressed: () {
                 Base.imagePickerController.pickImage(ImageSource.camera);
               },
-              child: Text('Capture Image'),
+              child: KText(text: 'Capture Image'),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Base.imagePickerController.pickImage(ImageSource.gallery);
               },
-              child: Text('Select from Gallery'),
+              child: KText(text: 'Select from Gallery'),
             ),
           ],
         ),

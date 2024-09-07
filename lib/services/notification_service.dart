@@ -16,19 +16,24 @@ class NotificationService {
 
 // initialize the local notifications
   static Future init() async {
-    // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
+    // Android initialization
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
-    final DarwinInitializationSettings initializationSettingsDarwin =
+
+    // iOS initialization
+    final DarwinInitializationSettings initializationSettingsIOS =
         DarwinInitializationSettings(
-      onDidReceiveLocalNotification: (id, title, body, payload) => null,
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
     );
     final LinuxInitializationSettings initializationSettingsLinux =
         LinuxInitializationSettings(defaultActionName: 'Open notification');
     final InitializationSettings initializationSettings =
         InitializationSettings(
             android: initializationSettingsAndroid,
-            iOS: initializationSettingsDarwin,
+            iOS: initializationSettingsIOS,
+            // iOS: initializationSettingsDarwin,
             linux: initializationSettingsLinux);
 
     // request notification permissions
@@ -36,13 +41,18 @@ class NotificationService {
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()!
         .requestNotificationsPermission();
-    // _flutterLocalNotificationsPlugin
-    //     .resolvePlatformSpecificImplementation<
-    //         AndroidFlutterLocalNotificationsPlugin>().requestPermission();
 
     _flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onDidReceiveNotificationResponse: onNotificationTap,
         onDidReceiveBackgroundNotificationResponse: onNotificationTap);
+    await _flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
   }
 
   // show a simple notification
@@ -56,6 +66,8 @@ class NotificationService {
             channelDescription: 'your channel description',
             importance: Importance.max,
             priority: Priority.high,
+            sound: RawResourceAndroidNotificationSound('notification'),
+            playSound: true,
             ticker: 'ticker');
     const NotificationDetails notificationDetails =
         NotificationDetails(android: androidNotificationDetails);
@@ -101,11 +113,30 @@ class NotificationService {
                 channelDescription: 'your channel description',
                 importance: Importance.max,
                 priority: Priority.high,
+                sound:
+                    RawResourceAndroidNotificationSound('notification_sound'),
+                playSound: true,
                 ticker: 'ticker')),
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
         payload: payload);
+
+    // // iOS notification details
+    // var iOSDetails = DarwinNotificationDetails(
+    //   sound: 'notification_sound.aiff',
+    // );
+    // // android notification details
+    // var androidDetails = DarwinNotificationDetails(
+    //   sound: 'notification_sound.aiff',
+    // );
+
+    // // Notification details for both platforms
+    // var notificationDetails = NotificationDetails(
+    //   android: androidDetails,
+    //   iOS: iOSDetails,
+    // );
+
     kLog('value');
   }
 
@@ -118,4 +149,44 @@ class NotificationService {
   static Future cancelAll() async {
     await _flutterLocalNotificationsPlugin.cancelAll();
   }
+
+  // Future<void> scheduleDailyNotification(DateTime selectedTime) async {
+  //   if (selectedTime.isBefore(DateTime.now())) {
+  //     selectedTime = selectedTime.add(const Duration(days: 1));
+  //   }
+  //   final tz.TZDateTime scheduledTime =
+  //       tz.TZDateTime.from(selectedTime, tz.local);
+
+  //   try {
+  //     await _flutterLocalNotificationsPlugin.zonedSchedule(
+  //       0,
+  //       "notification title",
+  //       "notification body",
+  //       scheduledTime,
+  //       _notificationDetails(),
+  //       androidAllowWhileIdle: true,
+  //       uiLocalNotificationDateInterpretation:
+  //           UILocalNotificationDateInterpretation.absoluteTime,
+  //       matchDateTimeComponents: DateTimeComponents.time,
+  //     );
+
+  //     kLog('Notification scheduled successfully');
+  //   } catch (e) {
+  //     kLog('Error scheduling notification: $e');
+  //   }
+  // }
+
+  // NotificationDetails _notificationDetails() {
+  //   return NotificationDetails(
+  //     android: AndroidNotificationDetails(
+  //       'your_channel_id',
+  //       'your_channel_name',
+  //       // 'your_channel_description',
+  //       importance: Importance.max,
+  //       priority: Priority.high,
+  //       showWhen: false,
+  //     ),
+  //     // iOS: IOSNotificationDetails(),
+  //   );
+  // }
 }

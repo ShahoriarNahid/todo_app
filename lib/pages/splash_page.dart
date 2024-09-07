@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-
 import '../controllers/config_controller.dart';
 import '../helpers/hex_color.dart';
 
@@ -18,8 +17,6 @@ class _SplashPageState extends State<SplashPage> {
     Get.put(ConfigController()).init();
     super.initState();
   }
-
-
 
   void _updateAppbar() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -57,12 +54,11 @@ class _SplashPageState extends State<SplashPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // SizedBox(
-              //   height: 20,
-              // ),
               Container(
                 margin: EdgeInsets.only(right: 30),
-                child: Icon(Icons.accessibility_outlined,),
+                child: Icon(
+                  Icons.accessibility_outlined,
+                ),
               ),
               SizedBox(
                 height: 80,

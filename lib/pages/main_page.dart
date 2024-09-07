@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:todo_app/component/left_drawer.dart';
+import 'package:todo_app/pages/add_task_page.dart';
+import 'package:todo_app/pages/task_details_page.dart';
 import 'package:todo_app/pages/task_list_page.dart';
 import 'package:todo_app/services/notification_service.dart';
 import '../base/base.dart';
@@ -30,44 +35,59 @@ class _MainPageState extends State<MainPage> {
           color: Colors.white, // Change this to your desired color
         ),
         title: KText(
-          text: 'TODO App',
+          text: 'To-Do List',
           color: Colors.white,
           bold: true,
         ),
         centerTitle: true,
         backgroundColor: Colors.indigo,
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              push(AddTaskPage());
+            },
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: TextButton(
-                  onPressed: () {
-                    push(TaskListPage());
-                  },
-                  child: KText(text: 'Image Picker')),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            ElevatedButton.icon(
-              icon: Icon(Icons.notifications_outlined),
-              onPressed: () {
-                //  LocalNotifications.showScheduleNotification(
-                //       title: "Schedule Notification",
-                //       body: "This is a Schedule Notification",
-                //       payload: "This is schedule data");h
-                NotificationService.showSimpleNotification(
-                    title: 'Simple Notification',
-                    body: 'This is a simple notification',
-                    payload: 'This is simple data');
+      body: Obx(() {
+        if (Base.taskController.tasks.isEmpty) {
+          return Center(
+              child: Center(child: KText(text: 'No tasks available')));
+        }
+        return ListView.builder(
+          itemCount: Base.taskController.tasks.length,
+          itemBuilder: (context, index) {
+            final task = Base.taskController.tasks[index];
+            return ListTile(
+              trailing: task.imagePath == null
+                  ? SizedBox()
+                  : Image.file(File(task.imagePath!)),
+              title: KText(
+                text: task.title,
+                bold: true,
+              ),
+              subtitle: KText(text: 'Due: ${task.dueTime}'),
+              leading: Checkbox(
+                value: task.isDone,
+                onChanged: (val) {
+                  Base.taskController.toggleTaskCompletion(task);
+                },
+              ),
+              onTap: () {
+                // NotificationService.showSimpleNotification(
+                //     title: task.title,
+                //     body: 'This is a simple notification',
+                //     payload: 'This is simple data');
+                push(TaskDetailPage(task: task));
               },
-              label: Text('Simple Notification'),
-            ),
-          ],
-        ),
-      ),
+            );
+          },
+        );
+      }),
     );
   }
 }

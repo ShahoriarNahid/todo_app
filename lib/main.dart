@@ -26,6 +26,11 @@ void main() async {
   if (initialNotification?.didNotificationLaunchApp == true) {
     // LocalNotifications.onClickNotification.stream.listen((event) {
     Future.delayed(Duration(seconds: 1), () {
+      // push(TaskDetailPage(
+      //     task: Task(
+      //   title: 'sss',
+      //   dueTime: DateTime.now(),
+      // )));
       // print(event);
       // navigatorKey.currentState!.pushNamed('/another',
       //     arguments: initialNotification?.notificationResponse?.payload);

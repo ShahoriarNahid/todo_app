@@ -30,7 +30,7 @@ class KText extends StatelessWidget {
       style: TextStyle(
         decoration: TextDecoration.none,
         fontSize: fontSize != null ? fontSize! : 14,
-        fontFamily: bold! ? 'Roboto Bold' : 'Roboto Regular',
+        fontFamily: bold! ? 'Manrope Bold' : 'Manrope Regular',
         color: color ?? Colors.black,
       ),
       maxLines: maxLines,

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_app/helpers/k_text.dart';
 import 'package:todo_app/helpers/route.dart';
 import 'package:todo_app/pages/add_task_page.dart';
 import 'package:todo_app/services/notification_service.dart';
@@ -11,10 +12,18 @@ class TaskListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('To-Do List'),
+        title: KText(
+          text: 'To-Do List',
+          color: Colors.white,
+          bold: true,
+        ),
+        backgroundColor: Colors.indigo,
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
             onPressed: () {
               push(AddTaskPage());
             },
@@ -23,7 +32,7 @@ class TaskListPage extends StatelessWidget {
       ),
       body: Obx(() {
         if (Base.taskController.tasks.isEmpty) {
-          return Center(child: Text('No tasks available'));
+          return Center(child: KText(text: 'No tasks available'));
         }
         return ListView.builder(
           itemCount: Base.taskController.tasks.length,
@@ -33,8 +42,8 @@ class TaskListPage extends StatelessWidget {
               trailing: task.imagePath == null
                   ? SizedBox()
                   : Image.file(File(task.imagePath!)),
-              title: Text(task.title),
-              subtitle: Text('Due: ${task.dueTime}'),
+              title: KText(text: task.title),
+              subtitle: KText(text: 'Due: ${task.dueTime}'),
               leading: Checkbox(
                 value: task.isDone,
                 onChanged: (val) {
