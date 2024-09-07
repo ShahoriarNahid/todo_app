@@ -10,13 +10,13 @@ class MenuController extends GetxController {
 
   List<LeftSidebar> getLeftDrawer() {
     return leftSidebar = [
-      LeftSidebar(
-        title: 'Info',
-        iconPath: 'assets/icons/my_personal_data_icon.png',
-        children: [
-          LeftSidebarChildren(title: 'Info'),
-        ],
-      ),
+      //   LeftSidebar(
+      //     title: 'Info',
+      //     iconPath: 'assets/icons/my_personal_data_icon.png',
+      //     children: [
+      //       LeftSidebarChildren(title: 'Info'),
+      //     ],
+      //   ),
     ];
   }
 

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:todo_app/helpers/k_text.dart';
 import 'package:todo_app/helpers/route.dart';
 
@@ -47,51 +46,6 @@ class TaskDetailPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // TextField(
-            //     decoration: InputDecoration(
-            //   // Adds some padding inside the TextField
-            //   contentPadding:
-            //       EdgeInsets.symmetric(vertical: 18.0, horizontal: 24.0),
-
-            //   // Background color
-            //   filled: true,
-            //   fillColor: Colors.grey[200],
-
-            //   // Rounded corners and border
-            //   border: OutlineInputBorder(
-            //     borderRadius: BorderRadius.circular(30.0),
-            //     borderSide: BorderSide.none, // Hides the border
-            //   ),
-
-            //   // Icon on the left side
-            //   prefixIcon: Icon(Icons.person, color: Colors.blueAccent),
-
-            //   // Hint text
-            //   hintText: 'Enter your username',
-            //   hintStyle: TextStyle(
-            //     color: Colors.grey[500],
-            //     fontSize: 16,
-            //   ),
-
-            //   // Focused border styling
-            //   focusedBorder: OutlineInputBorder(
-            //     borderRadius: BorderRadius.circular(30.0),
-            //     borderSide: BorderSide(
-            //       color: Colors.blueAccent,
-            //       width: 2.0,
-            //     ),
-            //   ),
-
-            //   // Error border styling (when validation fails)
-            //   errorBorder: OutlineInputBorder(
-            //     borderRadius: BorderRadius.circular(30.0),
-            //     borderSide: BorderSide(
-            //       color: Colors.red,
-            //       width: 2.0,
-            //     ),
-            //   ),
-            // )),
-
             TextField(
               controller: titleController,
               decoration: InputDecoration(
@@ -110,11 +64,6 @@ class TaskDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-
-            // TextField(
-            //   controller: titleController,
-            //   decoration: InputDecoration(labelText: 'Task Title'),
-            // ),
             task.imagePath == null
                 ? KText(text: 'No image')
                 : Image.file(

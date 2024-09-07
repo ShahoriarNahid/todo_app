@@ -2,11 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_app/component/left_drawer.dart';
 import 'package:todo_app/pages/add_task_page.dart';
 import 'package:todo_app/pages/task_details_page.dart';
-import 'package:todo_app/pages/task_list_page.dart';
-import 'package:todo_app/services/notification_service.dart';
 import '../base/base.dart';
 import '../helpers/k_text.dart';
 import '../helpers/route.dart';
@@ -70,13 +69,17 @@ class _MainPageState extends State<MainPage> {
                 text: task.title,
                 bold: true,
               ),
-              subtitle: KText(text: 'Due: ${task.dueTime}'),
-              leading: Checkbox(
-                value: task.isDone,
-                onChanged: (val) {
-                  Base.taskController.toggleTaskCompletion(task);
-                },
-              ),
+              subtitle: KText(
+                  text:
+                      'Due Time: ${DateFormat('yyyy-MM-dd hh:mm:ss a').format(Base.taskController.selectedDateTime.value)}'),
+              // subtitle: KText(text: 'Due: ${task.dueTime}'),
+
+              // leading: Checkbox(
+              //   value: task.isDone,
+              //   onChanged: (val) {
+              //     Base.taskController.toggleTaskCompletion(task);
+              //   },
+              // ),
               onTap: () {
                 // NotificationService.showSimpleNotification(
                 //     title: task.title,

@@ -8,7 +8,6 @@ import 'package:todo_app/services/notification_service.dart';
 import 'base/base_bindings.dart';
 import 'config/scroll_behavior_modified.dart';
 import 'pages/splash_page.dart';
-import 'theme/app_theme.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -47,8 +46,8 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      theme: AppTheme.get(isLight: true),
-      darkTheme: AppTheme.get(isLight: false),
+      // theme: AppTheme.get(isLight: true),
+      // darkTheme: AppTheme.get(isLight: false),
       title: 'TODO App',
       debugShowCheckedModeBanner: false,
       initialBinding: BaseBindings(),
