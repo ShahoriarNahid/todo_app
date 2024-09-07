@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:todo_app/base/base.dart';
-import 'package:todo_app/helpers/k_log.dart';
 import 'package:todo_app/helpers/k_text.dart';
 import 'package:todo_app/helpers/route.dart';
 import 'package:intl/intl.dart';
@@ -156,7 +155,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
                 ElevatedButton(
                   onPressed: () {
-                    
                     if (titleController.text.isNotEmpty) {
                       Base.taskController.addTask(
                         Task(
@@ -174,9 +172,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueAccent, // Button color
-                    // backgroundColor: titleController.text.isNotEmpty
-                    //     ? Colors.blueAccent
-                    //     : Colors.blueAccent[100], // Button color
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),

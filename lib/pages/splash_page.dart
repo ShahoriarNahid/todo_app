@@ -54,12 +54,6 @@ class _SplashPageState extends State<SplashPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                margin: EdgeInsets.only(right: 30),
-                child: Icon(
-                  Icons.accessibility_outlined,
-                ),
-              ),
               SizedBox(
                 height: 80,
               ),

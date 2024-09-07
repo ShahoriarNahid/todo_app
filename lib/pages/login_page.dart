@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:todo_app/helpers/k_text.dart';
 import '../base/base.dart';
 
@@ -9,6 +10,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -36,25 +38,46 @@ class LoginPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             // Password Input Field
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.grey[200],
-                prefixIcon: Icon(Icons.lock),
-                hintText: 'Password',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
+            Obx(() => TextField(
+                  controller: passwordController,
+
+                  obscureText: Base.loginController.isPasswordHidden
+                      .value, // Bind visibility state
+
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                    prefixIcon: Icon(Icons.lock),
+                    hintText: 'Password',
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        // Change the icon based on the password visibility
+                        Base.loginController.isPasswordHidden.value
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        // Toggle password visibility
+                        Base.loginController.togglePasswordVisibility();
+                      },
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                )),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Base.loginController
-                    .login(emailController.text, passwordController.text);
+                if (emailController.text.isNotEmpty &&
+                    passwordController.text.isNotEmpty) {
+                  Base.loginController
+                      .login(emailController.text, passwordController.text);
+                } else {
+                  Get.snackbar('Warning', 'please fill all required fields',
+                      snackPosition: SnackPosition.BOTTOM);
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blueAccent, // Button color

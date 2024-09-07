@@ -7,10 +7,15 @@ import '../helpers/route.dart';
 
 class LoginController extends GetxController {
   // Observable variables
+    var isPasswordHidden = true.obs;
+
   final isLoggedIn= RxBool(false);
   final token= RxString('');
   
-
+// Method to toggle the password visibility
+  void togglePasswordVisibility() {
+    isPasswordHidden.value = !isPasswordHidden.value;
+  }
   // Simulated login function
   Future<void> login(String email, String password) async {
     // Simulating a successful login with any email/password

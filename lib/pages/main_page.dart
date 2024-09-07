@@ -9,7 +9,6 @@ import 'package:todo_app/pages/task_details_page.dart';
 import '../base/base.dart';
 import '../helpers/k_text.dart';
 import '../helpers/route.dart';
-import '../services/notification_service.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
