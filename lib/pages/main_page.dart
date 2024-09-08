@@ -103,15 +103,7 @@ class _MainPageState extends State<MainPage> {
                   ),
                   subtitle: KText(
                       text:
-                          'Due Time: ${DateFormat('yyyy-MM-dd hh:mm:ss a').format(task.dueTime)}'),
-                  // subtitle: KText(text: 'Due: ${task.dueTime}'),
-
-                  // leading: Checkbox(
-                  //   value: task.isDone,
-                  //   onChanged: (val) {
-                  //     Base.taskController.toggleTaskCompletion(task);
-                  //   },
-                  // ),
+                          'Due Time: ${DateFormat('yyyy-MM-dd hh:mm a').format(task.dueTime)}'),
                   onTap: () {
                     push(TaskDetailPage(task: task));
                   },

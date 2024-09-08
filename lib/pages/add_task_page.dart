@@ -31,8 +31,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
           child: ElevatedButton(
             onPressed: () {
               if (titleController.text.isNotEmpty) {
+                int id = Base.taskController.tasks.length + 1;
                 Base.taskController.addTask(
                   Task(
+                    id: id,
                     title: titleController.text,
                     dueTime: Base.taskController.selectedDateTime.value,
                     imagePath:

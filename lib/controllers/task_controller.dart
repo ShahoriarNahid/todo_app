@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:todo_app/main.dart';
+import 'package:todo_app/pages/task_details_page.dart';
 import 'package:todo_app/services/notification_service.dart';
+import '../base/base.dart';
 import '../model/task_model.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -61,6 +63,32 @@ class TaskController extends GetxController {
 
   // Send notification
   Future<void> _sendNotification(Task task) async {
+    // Android initialization
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    // iOS initialization
+    final DarwinInitializationSettings initializationSettingsIOS =
+        DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+    );
+    final LinuxInitializationSettings initializationSettingsLinux =
+        LinuxInitializationSettings(defaultActionName: 'Open notification');
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
+            android: initializationSettingsAndroid,
+            iOS: initializationSettingsIOS,
+            // iOS: initializationSettingsDarwin,
+            linux: initializationSettingsLinux);
+
+    // request notification permissions
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()!
+        .requestNotificationsPermission();
+
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
       'reminder_channel_id', 'reminder_channel_name',
@@ -76,12 +104,21 @@ class TaskController extends GetxController {
     );
 
     await flutterLocalNotificationsPlugin.show(
-      0,
+      task.id,
       'Task Reminder',
       'It\'s time for your task: ${task.title}',
       platformChannelSpecifics,
     );
+
+    flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse:
+          (NotificationResponse notificationResponse) async {
+        Base.taskController.onNotificationTap(task);
+      },
+    );
   }
+
 
   // Reactive DateTime variable
   var selectedDateTime = DateTime.now().obs;
@@ -115,5 +152,9 @@ class TaskController extends GetxController {
         );
       }
     }
+  }
+
+  Future<void> onNotificationTap(Task task) async {
+    Get.to(() => TaskDetailPage(task: task), arguments: tasks);
   }
 }
