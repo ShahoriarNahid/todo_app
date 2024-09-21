@@ -1,0 +1,40 @@
+name: Flutter CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        flutter-version: [3.24.3.0] # specify the Flutter version
+
+    steps:
+      # Checkout the repo
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Install Flutter SDK
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ matrix.flutter-version }}
+
+      # Get Flutter dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Run Flutter tests
+      - name: Run tests
+        run: flutter test
+
+      # Build APK (optional)
+      - name: Build APK
+        run: flutter build apk --release
